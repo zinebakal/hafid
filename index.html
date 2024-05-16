@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض نقاط التلاميذ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .container h2 {
+            text-align: center;
+        }
+        .container input {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>عرض نقاط التلاميذ</h2>
+        <input type="text" id="pathNumber" placeholder="الرجاء إدخال رقم المسار">
+        <input type="text" id="birthDate" placeholder="الرجاء إدخال تاريخ الولادة (YYYY-MM-DD)">
+        <button onclick="findStudent()">عرض النقاط</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const students = [
+            {
+                name: "مراد",
+                surname: "حافض",
+                specialization: "علوم",
+                path_number: "12345",
+                birth_date: "2000-01-01",
+                points: {
+                    "مادة 1": 9,
+                    "مادة 2": 7,
+                    "مادة 3": 10,
+                    "مادة 4": 6,
+                    "مادة 5": 8,
+                    "مادة 6": 11,
+                    "مادة 7": 5
+                }
+            },
+            {
+                name: "التلميذ",
+                surname: "الثاني",
+                specialization: "آداب",
+                path_number: "54321",
+                birth_date: "2002-02-02",
+                points: {
+                    "مادة 1": 12,
+                    "مادة 2": 14,
+                    "مادة 3": 11,
+                    "مادة 4": 9,
+                    "مادة 5": 8,
+                    "مادة 6": 13,
+                    "مادة 7": 10
+                }
+            },
+            {
+                name: "التلميذ",
+                surname: "الثالث",
+                specialization: "رياضيات",
+                path_number: "67890",
+                birth_date: "2003-03-03",
+                points: {
+                    "مادة 1": 15,
+                    "مادة 2": 13,
+                    "مادة 3": 14,
+                    "مادة 4": 10,
+                    "مادة 5": 9,
+                    "مادة 6": 7,
+                    "مادة 7": 8
+                }
+            }
+        ];
+
+        function displayPoints(student) {
+            let resultDiv = document.getElementById('result');
+            let resultHTML = <h3>النقاط المحصل عليها للتلميذ ${student.name} ${student.surname}:</h3>;
+            for (const [subject, score] of Object.entries(student.points)) {
+                resultHTML += <p>${subject}: ${score} ${score < 10 ? 'ratt' : 'V'}</p>;
+            }
+            resultDiv.innerHTML = resultHTML;
+        }
+
+        function findStudent() {
+            const pathNumber = document.getElementById('pathNumber').value;
+            const birthDate = document.getElementById('birthDate').value;
+
+            let found = false;
+            for (const student of students) {
+                if (student.path_number === pathNumber && student.birth_date === birthDate) {
+                    document.getElementById('result').innerHTML = <p>تخصص التلميذ: ${student.specialization}</p>;
+                    displayPoints(student);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                document.getElementById('result').innerHTML = "<p>المعلومات غير متوفرة.</p>";
+            }
+        }
+    </script>
+</body>
+</html>
